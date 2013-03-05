@@ -20,7 +20,7 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 		return 0;
 	switch (regs->rax) {
 		case __NR_mkdir:
-			printk(KERN_INFO MODULE_NAME
+			DEBUG_PRINT(
 				   /* sycall pid tid args.. */
 				   "%lu %d %d args 0x%lu '%s' %d\n",
 				   regs->rax, current->pid, current->tgid, 
@@ -36,20 +36,23 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 
 int start_interposer(void)
 {
+	INFO_PRINT("setting up interposer...");
+
 	probe.symbol_name = "sys_mkdir";
 	probe.pre_handler = sysmon_intercept_before; /* called prior to function */
 	if (register_kprobe(&probe)) {
-		printk(KERN_ERR MODULE_NAME "register_kprobe failed\n");
+		ERR_PRINT("register_kprobe failed\n");
 		return -EFAULT;
 	}
-	printk(KERN_INFO MODULE_NAME "interposer started\n");
+	INFO_PRINT("done\n");
 	return 0;
 }
 
 void stop_interposer(void)
 {
+	INFO_PRINT("tearing down interposer...");
 	unregister_kprobe(&probe);
-	printk(KERN_INFO MODULE_NAME "interposer stopped.\n");
+	INFO_PRINT("done\n");
 }
 
 // vim:tw=80:ts=4:sw=4:noexpandtab
