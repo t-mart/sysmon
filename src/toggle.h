@@ -1,8 +1,10 @@
 #ifndef LOG_H
 #define LOG_H
 
-static int start_log(void);
+#define ENT_NAME MODULE_NAME "_toggle"
 
-static void stop_log(void);
+extern int start_log(void);
+
+extern void stop_log(void);
 
 #endif

@@ -1,5 +1,4 @@
 #include <linux/kernel.h>
-#include <linux/kprobes.h>
 #include <linux/module.h>
 
 #include "sysmon.h"
@@ -11,10 +10,6 @@
 #define LICENSE "GPL"
 #define AUTHORS "Eric Huang <ehuang3@gatech.edu>, Tim Martin <tim.martin@gatech.edu>"
 #define DESC "A system call interposer and logger for Georgia Tech's CS3210, Spring 2013"
-
-MODULE_LICENSE(LICENSE);
-MODULE_AUTHOR(AUTHORS);
-MODULE_DESCRIPTION(DESC);
 
 static int __init sysmon_init(void)
 {
@@ -44,5 +39,9 @@ static void __exit sysmon_exit(void)
 
 module_init(sysmon_init);
 module_exit(sysmon_exit);
+
+MODULE_LICENSE(LICENSE);
+MODULE_AUTHOR(AUTHORS);
+MODULE_DESCRIPTION(DESC);
 
 // vim:tw=80:ts=4:sw=4:noexpandtab

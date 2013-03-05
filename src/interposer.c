@@ -1,10 +1,8 @@
-#include <linux/kernel.h>
 #include <linux/kprobes.h>
-#include <linux/module.h>
 
-MODULE_LICENSE("GPL");
+#include "sysmon.h"
+#include "interposer.h"
 
-#define MODULE_NAME "[sysmon] "
 static struct kprobe probe;
 static int uid = 12345;
 

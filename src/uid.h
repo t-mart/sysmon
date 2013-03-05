@@ -1,8 +1,10 @@
 #ifndef UID_H
 #define UID_H
 
-static int start_uid(void);
+#define ENT_NAME MODULE_NAME "_uid"
 
-static void stop_uid(void);
+extern int start_uid(void);
+
+extern void stop_uid(void);
 
 #endif
