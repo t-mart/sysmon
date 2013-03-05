@@ -5,7 +5,7 @@
 MODULE_NAME := sysmon
 
 #source and object files
-SOURCE := interposer.o log.o uid.o toggle.o sysmon.c
+SOURCE := interposer.c log.c uid.c toggle.c sysmon.c
 #use this line when we have multiple source files
 $(MODULE_NAME)-objs := interposer.o log.o uid.o toggle.o
 
