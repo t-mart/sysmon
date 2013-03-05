@@ -21,9 +21,11 @@ static int uid_write(struct file *file, const char *buffer,
 
 static int start_uid(void)
 {
+	mode_t mode = S_IFREG | S_IRUSR | S_IWUSR;
+	struct proc_dir entry *toggle_ent;
+
 	INFO_PRINT("creating /proc/" ENT_NAME "...");
 
-	mode_t mode = S_IFREG | S_IRUSR | S_IWUSR;
 	uid_ent = create_proc_entry(ENT_NAME, mode, NULL);
 
 	if (uid_ent == NULL) {
@@ -45,7 +47,7 @@ static int start_uid(void)
 static void stop_uid(void)
 {
 	INFO_PRINT("removing /proc" ENT_NAME "...");
-	remove_proc_entry(PROC_F_NAME, &proc_root);
+	remove_proc_entry(ENT_NAME, &proc_root);
 	INFO_PRINT("done\n");
 }
 

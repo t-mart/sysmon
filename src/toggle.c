@@ -21,9 +21,11 @@ static int toggle_write(struct file *file, const char *buffer,
 
 static int start_toggle(void)
 {
+	mode_t mode = S_IFREG | S_IRUSR | S_IWUSR;
+	struct proc_dir entry *toggle_ent;
+
 	INFO_PRINT("creating /proc/" ENT_NAME "...");
 
-	mode_t mode = S_IFREG | S_IRUSR | S_IWUSR;
 	toggle_ent = create_proc_entry(ENT_NAME, mode, NULL);
 
 	if (toggle_ent == NULL) {
@@ -45,7 +47,7 @@ static int start_toggle(void)
 static void stop_toggle(void)
 {
 	INFO_PRINT("removing /proc" ENT_NAME "...");
-	remove_proc_entry(PROC_F_NAME, &proc_root);
+	remove_proc_entry(ENT_NAME, &proc_root);
 	INFO_PRINT("done\n");
 }
 

@@ -21,9 +21,11 @@ static int log_write(struct file *file, const char *buffer,
 
 static int start_log(void)
 {
+	mode_t mode = S_IFREG | S_IRUSR;
+	struct proc_dir entry *log_ent;
+
 	INFO_PRINT("creating /proc/" ENT_NAME "...");
 
-	mode_t mode = S_IFREG | S_IRUSR;
 	log_ent = create_proc_entry(ENT_NAME, mode, NULL);
 
 	if (log_ent == NULL) {
@@ -45,7 +47,7 @@ static int start_log(void)
 static void stop_log(void)
 {
 	INFO_PRINT("removing /proc" ENT_NAME "...");
-	remove_proc_entry(PROC_F_NAME, &proc_root);
+	remove_proc_entry(ENT_NAME, &proc_root);
 	INFO_PRINT("done\n");
 }
 
