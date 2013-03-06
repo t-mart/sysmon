@@ -4,23 +4,40 @@
 
 MODULE_NAME := sysmon
 
-#source and object files
+#=================
+#Project Variables
+#=================
+#source files
 SOURCE := interposer.c log.c uid.c toggle.c sysmon.c
-#use this line when we have multiple source files
-$(MODULE_NAME)-objs := interposer.o log.o uid.o toggle.o
+
+#main module object
+MODULE_OBJ := $(MODULE_NAME).o
+
+#================
+#Kernel Variables
+#================
+#$(MODULE_NAME)-objs are additional source objects, not including $(MODULE_NAME).o
+$(MODULE_NAME)-objs := $(SOURCE:.c=.o)
+$(MODULE_NAME)-objs -= $(MODULE_OBJ)
 
 #linked module object file
 KERNEL_OBJ := $(MODULE_NAME).ko
-obj-m += $(MODULE_NAME).o
+obj-m += $(MODULE_OBJ)
 
-#dirs
+#===========
+#Directories
+#===========
 KDIR := /lib/modules/`uname -r`/build
 PWD := `pwd`
 
+#always carry out these tasks -- don't do dependency timestamping
 .PHONY: all clean load unload
 
+#=======
+#Targets
+#=======
 #default target
-all: unload clean $(SOURCE)
+all: clean $(SOURCE)
 	$(MAKE) -C $(KDIR) M=$(PWD) modules
 
 clean: unload
