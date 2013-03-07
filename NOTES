@@ -1,0 +1,8 @@
+system calls all go from user->kernel space thru the function here:
+  http://lxr.linux.no/linux+v2.6.24.6/arch/x86/kernel/entry_64.S
+  L190
+
+use kprobe? or else it might get hairy messing with that assembly bc 1) its
+assembly and 2) messing up here means nothing can make syscalls, i.e. init
+can't even run.
+
