@@ -9,7 +9,7 @@ static int uid_read(char *buffer, char **start, off_t offset,
 {
 	int ret;
 
-	INFO_PRINT("reading /proc/" ENT_NAME "...");
+	INFO_PRINT("reading /proc/" UID_ENT_NAME "...");
 
 	if(offset > 0) {
 		ret = 0;
@@ -30,7 +30,7 @@ static int uid_write(struct file *file, const char *buffer,
 
 	int len = min(count, size);
 
-	INFO_PRINT("writing into /proc/" ENT_NAME "...");
+	INFO_PRINT("writing into /proc/" UID_ENT_NAME "...\n");
 
 	if(copy_from_user(uid_buf, buffer, len)) {
 		INFO_PRINT("failed to copy from user\n");
@@ -39,7 +39,7 @@ static int uid_write(struct file *file, const char *buffer,
 
 	sscanf(uid_buf, "%u", &uid);
 
-	INFO_PRINT(" uid <- %u\n", uid);
+	INFO_PRINT("uid <- %u\n", uid);
 
 	return len;
 }
@@ -49,12 +49,12 @@ int start_uid(void)
 	mode_t mode = S_IFREG | S_IRUSR | S_IWUSR;
 	struct proc_dir_entry *uid_ent;
 
-	INFO_PRINT("creating /proc/" ENT_NAME "...");
+	INFO_PRINT("creating /proc/" UID_ENT_NAME "...\n");
 
-	uid_ent = create_proc_entry(ENT_NAME, mode, NULL);
+	uid_ent = create_proc_entry(UID_ENT_NAME, mode, NULL);
 
 	if (uid_ent == NULL) {
-		ERR_PRINT("creation of /proc/" ENT_NAME " failed!\n");
+		ERR_PRINT("creation of /proc/" UID_ENT_NAME " failed!\n");
 		return -EFAULT;
 	}
 
@@ -66,16 +66,16 @@ int start_uid(void)
 	uid_ent->uid        = 0; //root
 	uid_ent->gid        = 0; //root
 
-	INFO_PRINT("done\n");
+	INFO_PRINT("/proc/" UID_ENT_NAME " created.\n");
 
 	return 0;
 }
 
 void stop_uid(void)
 {
-	INFO_PRINT("removing /proc" ENT_NAME "...");
-	remove_proc_entry(ENT_NAME, &proc_root);
-	INFO_PRINT("done\n");
+	INFO_PRINT("removing /proc/" UID_ENT_NAME "...\n");
+	remove_proc_entry(UID_ENT_NAME, &proc_root);
+	INFO_PRINT("/proc/" UID_ENT_NAME " removed.\n");
 }
 
 // vim:tw=80:ts=4:sw=4:noexpandtab
