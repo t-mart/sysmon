@@ -3,6 +3,7 @@
 #include "sysmon.h"
 #include "interposer.h"
 #include "uid.h"
+#include "buffer.h"
 
 static struct kprobe probe;
 
