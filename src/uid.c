@@ -25,7 +25,7 @@ static int uid_read(char *buffer, char **start, off_t offset,
 static int uid_write(struct file *file, const char *buffer,
 					 unsigned long count, void *data)
 {
-	int size = 1024;
+	unsigned long size = 1024;
 	char uid_buf[size];
 
 	int len = min(count, size);
