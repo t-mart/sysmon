@@ -1,6 +1,7 @@
 #include "sysmon.h"
 #include "proc.h"
 #include "log.h"
+#include "buffer.h"
 
 static int log_read(char *buffer, char **start, off_t offset,
 					int count, int *peof, void *dat)
