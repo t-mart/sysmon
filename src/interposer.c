@@ -53,4 +53,7 @@ void stop_interposer(void)
 	INFO_PRINT("done\n");
 }
 
+#include <linux/module.h>
+MODULE_LICENSE("GPL");
+
 // vim:tw=80:ts=4:sw=4:noexpandtab
