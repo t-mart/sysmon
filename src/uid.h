@@ -7,4 +7,6 @@ extern int start_uid(void);
 
 extern void stop_uid(void);
 
+extern int uid;
+
 #endif

@@ -2,9 +2,9 @@
 
 #include "sysmon.h"
 #include "interposer.h"
+#include "uid.h"
 
 static struct kprobe probe;
-static int uid = 12345;
 
 /* pt_regs defined in include/asm-x86/ptrace.h
  *
