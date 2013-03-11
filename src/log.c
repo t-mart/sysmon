@@ -5,7 +5,14 @@
 static int log_read(char *buffer, char **start, off_t offset,
 					int count, int *peof, void *dat)
 {
-	return 0;
+	int ret;
+	if(offset > 0) {
+		ret = 0;
+	} else {
+		sysmon_buffer_read(buffer, count, 1);
+		ret = count;
+	}
+	return ret;
 }
 
 static int log_write(struct file *file, const char *buffer,

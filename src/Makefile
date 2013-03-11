@@ -8,7 +8,7 @@ MODULE_NAME := sysmon
 #Project Variables
 #=================
 #source files
-SOURCE := sysmon-base.c interposer.c log.c uid.c toggle.c
+SOURCE := sysmon-base.c interposer.c log.c uid.c toggle.c buffer.c
 #SOURCE := $(wildcard *.c)
 
 #main module object

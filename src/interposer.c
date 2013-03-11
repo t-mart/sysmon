@@ -3,6 +3,7 @@
 #include "sysmon.h"
 #include "interposer.h"
 #include "uid.h"
+#include "buffer.h"
 
 static struct kprobe probe;
 
@@ -18,10 +19,11 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 		return 0;
 	switch (regs->rax) {
 		case __NR_mkdir:
-			DEBUG_PRINT(
+			sysmon_buffer_write(
+			/*DEBUG_PRINT(*/
 				   /* sycall pid tid args.. */
 				   "%lu %d %d args 0x%lu '%s' %d\n",
-				   regs->rax, current->pid, current->tgid, 
+				   regs->rax, current->pid, current->tgid,
 				   (uintptr_t)regs->rdi, (char*)regs->rdi, (int)regs->rsi);
 			break;
 		default:
