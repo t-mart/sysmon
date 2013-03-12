@@ -130,23 +130,26 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 
 int start_interposer(void)
 {
-	INFO_PRINT("setting up interposer...");
+	INFO_PRINT("setting up interposer...\n");
 
 	probe.symbol_name = "sys_mkdir";
 	probe.pre_handler = sysmon_intercept_before; /* called prior to function */
 	if (register_kprobe(&probe)) {
-		ERR_PRINT("register_kprobe failed\n");
+		ERR_PRINT("register_kprobe failed!\n");
 		return -EFAULT;
 	}
-	INFO_PRINT("done\n");
+	INFO_PRINT("interposer set up.\n");
 	return 0;
 }
 
 void stop_interposer(void)
 {
-	INFO_PRINT("tearing down interposer...");
+	INFO_PRINT("tearing down interposer...\n");
 	unregister_kprobe(&probe);
-	INFO_PRINT("done\n");
+	INFO_PRINT("interposer torn down.\n");
 }
+
+#include <linux/module.h>
+MODULE_LICENSE("GPL");
 
 // vim:tw=80:ts=4:sw=4:noexpandtab

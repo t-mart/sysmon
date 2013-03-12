@@ -8,7 +8,8 @@ MODULE_NAME := sysmon
 #Project Variables
 #=================
 #source files
-SOURCE := interposer.c log.c uid.c toggle.c sysmon.c
+SOURCE := sysmon-base.c interposer.c log.c uid.c toggle.c
+#SOURCE := $(wildcard *.c)
 
 #main module object
 MODULE_OBJ := $(MODULE_NAME).o
@@ -18,7 +19,6 @@ MODULE_OBJ := $(MODULE_NAME).o
 #================
 #$(MODULE_NAME)-objs are additional source objects, not including $(MODULE_NAME).o
 $(MODULE_NAME)-objs := $(SOURCE:.c=.o)
-$(MODULE_NAME)-objs -= $(MODULE_OBJ)
 
 #linked module object file
 KERNEL_OBJ := $(MODULE_NAME).ko
@@ -36,6 +36,7 @@ PWD := `pwd`
 #=======
 #Targets
 #=======
+#compile and link
 #default target
 all: clean $(SOURCE)
 	$(MAKE) -C $(KDIR) M=$(PWD) modules

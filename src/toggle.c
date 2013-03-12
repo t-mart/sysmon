@@ -19,12 +19,12 @@ int start_toggle(void)
 	mode_t mode = S_IFREG | S_IRUSR | S_IWUSR;
 	struct proc_dir_entry *toggle_ent;
 
-	INFO_PRINT("creating /proc/" ENT_NAME "...");
+	INFO_PRINT("creating /proc/" TOGGLE_ENT_NAME "...\n");
 
-	toggle_ent = create_proc_entry(ENT_NAME, mode, NULL);
+	toggle_ent = create_proc_entry(TOGGLE_ENT_NAME, mode, NULL);
 
 	if (toggle_ent == NULL) {
-		ERR_PRINT("creation of /proc/" ENT_NAME " failed!\n");
+		ERR_PRINT("creation of /proc/" TOGGLE_ENT_NAME " failed!\n");
 		return -EFAULT;
 	}
 
@@ -34,16 +34,16 @@ int start_toggle(void)
 	toggle_ent->uid        = 0; //root
 	toggle_ent->gid        = 0; //root
 
-	INFO_PRINT("done\n");
+	INFO_PRINT("/proc/" TOGGLE_ENT_NAME " created.\n");
 
 	return 0;
 }
 
 void stop_toggle(void)
 {
-	INFO_PRINT("removing /proc" ENT_NAME "...");
-	remove_proc_entry(ENT_NAME, &proc_root);
-	INFO_PRINT("done\n");
+	INFO_PRINT("removing /proc" TOGGLE_ENT_NAME "...\n");
+	remove_proc_entry(TOGGLE_ENT_NAME, &proc_root);
+	INFO_PRINT("/proc/" TOGGLE_ENT_NAME " removed.\n");
 }
 
 // vim:tw=80:ts=4:sw=4:noexpandtab

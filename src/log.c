@@ -19,12 +19,12 @@ int start_log(void)
 	mode_t mode = S_IFREG | S_IRUSR;
 	struct proc_dir_entry *log_ent;
 
-	INFO_PRINT("creating /proc/" ENT_NAME "...");
+	INFO_PRINT("creating /proc/" LOG_ENT_NAME "...\n");
 
-	log_ent = create_proc_entry(ENT_NAME, mode, NULL);
+	log_ent = create_proc_entry(LOG_ENT_NAME, mode, NULL);
 
 	if (log_ent == NULL) {
-		ERR_PRINT("creation of /proc/" ENT_NAME " failed!\n");
+		ERR_PRINT("creation of /proc/" LOG_ENT_NAME " failed!\n");
 		return -EFAULT;
 	}
 
@@ -34,16 +34,16 @@ int start_log(void)
 	log_ent->uid        = 0; //root
 	log_ent->gid        = 0; //root
 
-	INFO_PRINT("done\n");
+	INFO_PRINT("/proc/" LOG_ENT_NAME " created.\n");
 
 	return 0;
 }
 
 void stop_log(void)
 {
-	INFO_PRINT("removing /proc" ENT_NAME "...");
-	remove_proc_entry(ENT_NAME, &proc_root);
-	INFO_PRINT("done\n");
+	INFO_PRINT("removing /proc/" LOG_ENT_NAME "...\n");
+	remove_proc_entry(LOG_ENT_NAME, &proc_root);
+	INFO_PRINT("/proc/" LOG_ENT_NAME " removed.\n");
 }
 
 // vim:tw=80:ts=4:sw=4:noexpandtab

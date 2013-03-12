@@ -20,7 +20,7 @@ static int __init sysmon_init(void)
 	// if any of this fails, you probably need to reboot
 	failure = start_interposer() | start_uid() | start_toggle() | start_log();
 
-	INFO_PRINT("initialization done\n");
+	INFO_PRINT("initialization done.\n");
 
 	return failure;
 }
