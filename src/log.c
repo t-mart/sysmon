@@ -3,17 +3,6 @@
 #include "log.h"
 #include "buffer.h"
 
-static int log_read(char *buffer, char **start, off_t offset,
-					int count, int *peof, void *dat)
-{
-}
-
-static int log_write(struct file *file, const char *buffer,
-					 unsigned long count, void *data)
-{
-	return 0;
-}
-
 static int log_open(struct inode *inode, struct file *file)
 {
 	return seq_open(file, &sysmon_seq_ops);

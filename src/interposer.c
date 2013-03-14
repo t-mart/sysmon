@@ -15,11 +15,10 @@ static struct kprobe probe;
 static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 {
 	int ret = 0;
-	int suc = -1;
+	char *sys_call;
 	if (current->uid != uid)
 		return 0;
 
-	char *sys_call;
 	switch (regs->rax) {
 		case __NR_access:
 			sys_call = "access";
@@ -125,11 +124,10 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 			regs->rax, current->pid, current->tgid, 
 			(uintptr_t)regs->rdi, (char*)regs->rdi, (int)regs->rsi);
 
-			suc = sysmon_buffer_write(regs);
-			if (suc != -1)
-				DEBUG_PRINT("wrote new log_entry to %d", suc);
+			if (sysmon_buffer_write(regs) != -1)
+				DEBUG_PRINT("wrote new log_entry about %s\n", sys_call);
 			else
-				DEBUG_PRINT("couldn't write");
+				DEBUG_PRINT("couldn't write\n");
 	}
 
 	return ret;
