@@ -6,14 +6,6 @@
 static int log_read(char *buffer, char **start, off_t offset,
 					int count, int *peof, void *dat)
 {
-	int ret;
-	if(offset > 0) {
-		ret = 0;
-	} else {
-		sysmon_buffer_read(buffer, count, 1);
-		ret = count;
-	}
-	return ret;
 }
 
 static int log_write(struct file *file, const char *buffer,
@@ -22,10 +14,18 @@ static int log_write(struct file *file, const char *buffer,
 	return 0;
 }
 
-static int log_open(struct inode *inode, struct *file)
+static int log_open(struct inode *inode, struct file *file)
 {
 	return seq_open(file, &sysmon_seq_ops);
 }
+
+static struct file_operations sysmon_proc_ops = {
+	.owner   = THIS_MODULE,
+	.open    = log_open,
+	.read    = seq_read,
+	.llseek  = seq_lseek,
+	.release = seq_release
+};
 
 int start_log(void)
 {
@@ -41,11 +41,7 @@ int start_log(void)
 		return -EFAULT;
 	}
 
-	log_ent->owner   = THIS_MODULE;
-	log_ent->open    = sysmon_log_open;
-	log_ent->read    = seq_read;
-	log_ent->llseek  = seq_lseek;
-	log_ent->release = seq_release;
+	log_ent->proc_fops = &sysmon_proc_ops;
 	log_ent->uid     = 0; //root
 	log_ent->gid     = 0; //root
 

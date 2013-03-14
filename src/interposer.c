@@ -19,7 +19,7 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 		return 0;
 	switch (regs->rax) {
 		case __NR_mkdir:
-			sysmon_buffer_write(*regs);
+			sysmon_buffer_write(regs);
 			/*sysmon_buffer_write(*/
 			/*DEBUG_PRINT(*/
 				   /* sycall pid tid args.. */
