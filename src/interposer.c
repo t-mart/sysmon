@@ -123,6 +123,7 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 			sys_call,
 			regs->rax, current->pid, current->tgid, 
 			(uintptr_t)regs->rdi, (char*)regs->rdi, (int)regs->rsi);
+			sysmon_buffer_write(*regs);
 	}
 
 	return ret;

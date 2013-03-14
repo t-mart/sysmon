@@ -1,6 +1,7 @@
 #include "sysmon.h"
 #include "proc.h"
 #include "log.h"
+#include "buffer.h"
 
 static int log_read(char *buffer, char **start, off_t offset,
 					int count, int *peof, void *dat)
@@ -21,6 +22,11 @@ static int log_write(struct file *file, const char *buffer,
 	return 0;
 }
 
+static int log_open(struct inode *inode, struct *file)
+{
+	return seq_open(file, &sysmon_seq_ops);
+}
+
 int start_log(void)
 {
 	mode_t mode = S_IFREG | S_IRUSR;
@@ -35,11 +41,13 @@ int start_log(void)
 		return -EFAULT;
 	}
 
-	log_ent->read_proc  = log_read;
-	log_ent->write_proc = log_write;
-	log_ent->owner      = THIS_MODULE;
-	log_ent->uid        = 0; //root
-	log_ent->gid        = 0; //root
+	log_ent->owner   = THIS_MODULE;
+	log_ent->open    = sysmon_log_open;
+	log_ent->read    = seq_read;
+	log_ent->llseek  = seq_lseek;
+	log_ent->release = seq_release;
+	log_ent->uid     = 0; //root
+	log_ent->gid     = 0; //root
 
 	INFO_PRINT("/proc/" LOG_ENT_NAME " created.\n");
 

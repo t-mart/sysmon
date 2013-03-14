@@ -4,8 +4,9 @@
 //64KB
 #define BUF_LEN (1 << 16)
 
-extern int sysmon_buffer_write(const char *fmt, ...);
-extern int sysmon_buffer_read(char *buf, int len, int clear_after_read);
+extern int sysmon_buffer_write(struct pt_regs *regs);
+
+extern struct seq_operations sysmon_seq_ops;
 
 #endif
 
