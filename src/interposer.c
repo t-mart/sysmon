@@ -19,12 +19,13 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 		return 0;
 	switch (regs->rax) {
 		case __NR_mkdir:
-			sysmon_buffer_write(
+			sysmon_buffer_write(*regs);
+			/*sysmon_buffer_write(*/
 			/*DEBUG_PRINT(*/
 				   /* sycall pid tid args.. */
-				   "%lu %d %d args 0x%lu '%s' %d\n",
-				   regs->rax, current->pid, current->tgid,
-				   (uintptr_t)regs->rdi, (char*)regs->rdi, (int)regs->rsi);
+				   /*"%lu %d %d args 0x%lu '%s' %d\n",*/
+				   /*regs->rax, current->pid, current->tgid,*/
+				   /*(uintptr_t)regs->rdi, (char*)regs->rdi, (int)regs->rsi);*/
 			break;
 		default:
 			ret = -1;
