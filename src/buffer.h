@@ -1,8 +1,8 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
-//64KB
-#define BUF_LEN (1 << 16)
+//64K entries
+#define BUF_LEN (1L << 16)
 
 extern int sysmon_buffer_write(struct pt_regs *regs);
 

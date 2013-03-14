@@ -15,11 +15,16 @@ static struct kprobe probe;
 static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 {
 	int ret = 0;
+	int suc = -1;
 	if (current->uid != uid)
 		return 0;
 	switch (regs->rax) {
 		case __NR_mkdir:
-			sysmon_buffer_write(regs);
+			suc = sysmon_buffer_write(regs);
+			if (suc != -1)
+				DEBUG_PRINT("wrote new log_entry to %d", suc);
+			else
+				DEBUG_PRINT("couldn't write");
 			/*sysmon_buffer_write(*/
 			/*DEBUG_PRINT(*/
 				   /* sycall pid tid args.. */

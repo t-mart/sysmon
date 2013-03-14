@@ -15,19 +15,24 @@ static struct log_entry sysmon_buffer[BUF_LEN];
 
 static DEFINE_SPINLOCK(logbuf_lock);
 
-static loff_t log_start = 0L; /* Index into log_buf: next char to be read by syslog() */
-static loff_t log_end = 0L;   /* Index into log_buf: most-recently-written-char + 1 */
+static loff_t log_start = 0L; //index of first entry
+static loff_t log_end = 0L;   //index of last entry + 1
+static unsigned long log_entries = 0L; //number of entries
+
+#define IN_BUF(index) ((index) % BUF_LEN)
+#define LOG_EMTPY (log_entries == 0L)
+#define LOG_FULL (log_entries == BUF_LEN)
 
 static void *sysmon_seq_start(struct seq_file *s, loff_t *pos)
 {
-	preempt_disable();
+	/*preempt_disable();*/
 
 	/*raw_local_irq_save(flags);*/
 	/*lockdep_off();*/
 	spin_lock(&logbuf_lock);
 
 	//nothing in the log
-	if (log_start == log_end)
+	if (LOG_EMTPY)
 		return NULL;
 
 	return sysmon_buffer + log_start;
@@ -36,14 +41,13 @@ static void *sysmon_seq_start(struct seq_file *s, loff_t *pos)
 
 static void *sysmon_seq_next(struct seq_file *s, void *v, loff_t *pos)
 {
-	loff_t next = log_start + 1;
+	loff_t next = IN_BUF(log_start + 1);
 
-	if (next >= BUF_LEN)
-		next = 0;
-	if (next > log_end)
+	if (LOG_EMTPY)
 		return NULL;
 
 	log_start = next;
+	log_entries--;
 
 	return sysmon_buffer + log_start;
 }
@@ -54,7 +58,7 @@ static void sysmon_seq_stop(struct seq_file *s, void *v)
 	/*lockdep_on();*/
 	/*raw_local_irq_restore(flags);*/
 
-	preempt_enable();
+	//preempt_enable();
 }
 
 static int sysmon_seq_show(struct seq_file *s, void *v)
@@ -77,18 +81,13 @@ struct seq_operations sysmon_seq_ops = {
 
 int sysmon_buffer_write(struct pt_regs *regs)
 {
-
+	loff_t next = log_end;
 	struct log_entry *le;
-	loff_t next;
 
 	preempt_disable();
 	spin_lock(&logbuf_lock);
 
-	next = log_end + 1;
-
-	if (next >= BUF_LEN)
-		next = 0;
-	if (next >= log_start)
+	if (LOG_FULL)
 		//no more room. don't write
 		return -1;
 
@@ -104,12 +103,14 @@ int sysmon_buffer_write(struct pt_regs *regs)
 	le->arg4       = (unsigned long) regs->r8;
 	le->arg5       = (unsigned long) regs->r9;
 
-	log_end = next;
+	log_entries++;
+	log_end = IN_BUF(next + 1);
 
 	spin_unlock(&logbuf_lock);
 	preempt_enable();
 
-	return log_end;
+	//return the index we just wrote to
+	return next;
 }
 
 // vim:tw=80:ts=4:sw=4:noexpandtab
