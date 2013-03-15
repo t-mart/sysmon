@@ -12,3 +12,5 @@
 *.lst
 *.symtypes
 Module.symvers
+test/*.times
+*.out
