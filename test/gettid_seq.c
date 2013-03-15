@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/syscall.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/time.h>
 
 #ifdef DEBUG
 #define DEBUG_PRINT(fmt, ...) printf(fmt, ##__VA_ARGS__)
@@ -12,8 +15,14 @@
 
 void do_something()
 {
-  int tid = syscall(SYS_gettid);
-  DEBUG_PRINT("%d,", tid);
+  struct timeval before, after;
+
+  gettimeofday(&before, NULL);
+  int tid = syscall(SYS_stat);
+  gettimeofday(&after, NULL);
+
+  timersub(&after,&before,&after);
+  DEBUG_PRINT("%lld.%06lld\n", after.tv_sec, after.tv_usec);
 }
 
 int main(int argc, char* argv[])
