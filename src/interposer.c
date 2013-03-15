@@ -17,9 +17,8 @@ static struct kprobe probe[sys_call_monitor_size];
 static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 {
 	int ret = 0;
-	long nr = -1;
+	long nr = regs->rax;
 	char *sys_call;
-	int i;
 
 	if (current->uid != uid)
 		return 0;
@@ -36,7 +35,6 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 	if (!sys_call_monitor[regs->rax].monitor)
 		return 0;
 
-	nr = regs->rax;
 	sys_call = sys_call_table[nr].sym_name;
 
 	INFO_PRINT(

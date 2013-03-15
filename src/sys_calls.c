@@ -6,11 +6,11 @@
 #define __NO_STUBS
 
 #undef __SYSCALL
-#define __SYSCALL(nr, sym) [ nr ] = { .sym_name = #sym, .sys_num = nr .monitor = 0 }, 
+#define __SYSCALL(nr, sym) [ nr ] = { .sym_name = #sym, .sys_num = nr, .monitor = 0 }, 
 #undef _ASM_X86_64_UNISTD_H_
 
-const struct sys_call_id_t sys_call_table[SYSCALL_MAX+1] = {
-   [0 ... SYSCALL_MAX] = { .sym_name = "ERROR: invalid sys call index", .sys_num = -1 },
+struct sys_call_id_t sys_call_table[SYSCALL_MAX+1] = {
+   [0 ... SYSCALL_MAX] = { .sym_name = "ERROR: invalid sys call index", .sys_num = -1, .monitor = 0 },
    #include <asm/unistd_64.h>
 };
 
