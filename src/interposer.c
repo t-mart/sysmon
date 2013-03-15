@@ -23,6 +23,9 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 	if (current->uid != uid)
 		return 0;
 
+	if (!sysmon_active)
+		return 0;
+
 	// filter out unmonitored sys calls
 	for(i=0; i < sys_call_monitor_size; ++i) {
 		if(sys_call_monitor[i] == regs->rax) {

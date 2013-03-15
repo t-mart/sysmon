@@ -7,4 +7,6 @@ extern int start_log(void);
 
 extern void stop_log(void);
 
+extern unsigned int sysmon_active
+
 #endif
