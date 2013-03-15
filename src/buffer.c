@@ -68,7 +68,7 @@ static int sysmon_seq_show(struct seq_file *s, void *v)
 
 	seq_printf(s, "sys call: %s, pid: %d, tgid: %d\n"
 				  "args: (%lu, %lu, %lu, %lu, %lu, %lu)\n",
-			   sys_call_table[le->sys_call_n],
+			   sys_call_table[le->sys_call_n].sym_name,
 			   le->pid, le->tgid,
 			   le->arg0, le->arg1, le->arg2, le->arg3, le->arg4, le->arg5);
 	return 0;
