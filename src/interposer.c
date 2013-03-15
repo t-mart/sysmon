@@ -23,7 +23,6 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 
 	if (current->uid != uid)
 		return 0;
-
 	if (!sysmon_active)
 		return 0;
 
@@ -34,9 +33,10 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 			break;
 		}
 	}
-	if(nr == -1)
+	if (!sys_call_monitor[regs->rax].monitor)
 		return 0;
 
+	nr = regs->rax;
 	sys_call = sys_call_table[nr].sym_name;
 
 	INFO_PRINT(
@@ -67,6 +67,7 @@ int start_interposer(void)
 		if(sys_call_table[nr].sys_num == -1)
 			continue; // invalid probe
 
+		sys_call_table[nr].monitor = 1;
 		probe[i].symbol_name = sys_call_table[nr].sym_name;
 		probe[i].pre_handler = sysmon_intercept_before; /* called prior to function */
 

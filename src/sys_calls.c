@@ -6,7 +6,7 @@
 #define __NO_STUBS
 
 #undef __SYSCALL
-#define __SYSCALL(nr, sym) [ nr ] = { .sym_name = #sym, .sys_num = nr }, 
+#define __SYSCALL(nr, sym) [ nr ] = { .sym_name = #sym, .sys_num = nr .monitor = 0 }, 
 #undef _ASM_X86_64_UNISTD_H_
 
 const struct sys_call_id_t sys_call_table[SYSCALL_MAX+1] = {
