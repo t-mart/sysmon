@@ -66,7 +66,7 @@ static int sysmon_seq_show(struct seq_file *s, void *v)
 	struct log_entry *le = (struct log_entry *) v;
 
 	char *sys_call;
-	switch (log_entry->sys_call_n) {
+	switch (le->sys_call_n) {
 		case __NR_access:
 			sys_call = "access";
 			break;
