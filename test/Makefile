@@ -7,7 +7,7 @@ MACROS = TSC
 #MACROS = FOO
 
 test: build clean
-	sh runner.sh $(ITERS_PER_TEST) $(OUTPUT_FILE)
+	sh runner.sh $(ITERS_PER_TEST) $(OUTPUT_FILE) $(TESTS)
 
 build: gettid_seq.c
 	gcc -lrt -D $(MACROS) -o gettid_seq.out gettid_seq.c
