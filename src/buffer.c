@@ -66,6 +66,13 @@ static int sysmon_seq_show(struct seq_file *s, void *v)
 {
 	struct log_entry *le = (struct log_entry *) v;
 
+// Assignment output format
+//	seq_printf(s, "%lu %d %d %lu %lu %lu %lu %lu %lu\n",
+//			   le->sys_call_n,
+//			   le->pid, le->tgid,
+//	  		   le->arg0, le->arg1, le->arg2, le->arg3, le->arg4, le->arg5);
+
+// Human readable format
 	seq_printf(s, "sys call: %s, pid: %d, tgid: %d\n"
 				  "args: (%lu, %lu, %lu, %lu, %lu, %lu)\n",
 			   sys_call_table[le->sys_call_n].sym_name,
