@@ -65,7 +65,7 @@ static int sysmon_seq_show(struct seq_file *s, void *v)
 {
 	struct log_entry *le = (struct log_entry *) v;
 
-	char *sys_call;
+	char *sys_call = "ERROR: no matching syscall";
 	switch (le->sys_call_n) {
 		case __NR_access:
 			sys_call = "access";
@@ -161,10 +161,10 @@ static int sysmon_seq_show(struct seq_file *s, void *v)
 			break;
 	}
 
-	seq_printf(s, "syscall: %s, pid: %d, tgid: %d, sys call: %lu, args: (%lu, %lu, %lu, %lu, %lu, %lu)\n",
+	seq_printf(s, "sys call: %s, pid: %d, tgid: %d\n"
+				  "args: (%lu, %lu, %lu, %lu, %lu, %lu)\n",
 			   sys_call,
 			   le->pid, le->tgid,
-			   le->sys_call_n,
 			   le->arg0, le->arg1, le->arg2, le->arg3, le->arg4, le->arg5);
 	return 0;
 }
