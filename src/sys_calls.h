@@ -9,7 +9,7 @@ struct sys_call_id_t {
    int monitor; // 0 do not, 1 do monitor
 };
 
-extern const struct sys_call_id_t sys_call_table[];
+extern struct sys_call_id_t sys_call_table[];
 
 // Table of sys calls to monitor by sys number, e.g. __NR_mkdir
 #define sys_call_monitor_size 30
