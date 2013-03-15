@@ -11,8 +11,4 @@ struct sys_call_id_t {
 
 extern struct sys_call_id_t sys_call_table[];
 
-// Table of sys calls to monitor by sys number, e.g. __NR_mkdir
-#define sys_call_monitor_size 30
-extern const long sys_call_monitor[];
-
 #endif //_SYS_CALLS_H

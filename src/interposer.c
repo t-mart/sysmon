@@ -18,7 +18,7 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 {
 	int ret = 0;
 	long nr = regs->rax;
-	char *sys_call;
+	struct sys_call_id_t sys_call;
 
 	if (current->uid != uid)
 		return 0;
@@ -35,19 +35,22 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 	if (!sys_call_monitor[regs->rax].monitor)
 		return 0;
 
-	sys_call = sys_call_table[nr].sym_name;
+	sys_call = sys_call_table[nr];
+
+	if (!(sys_call.monitor))
+		return 0;
 
 	INFO_PRINT(
 		/* sycall pid tid args.. */
 		"sysmon intercepted '%s'\n"
 		"nr: %lu, pid: %d, tgid: %d, uid: %d\n"
 		"args (%lu, %lu, %lu, %lu, %lu, %lu)\n",
-		sys_call,
+		sys_call.sym_name,
 	 	regs->rax, current->pid, current->tgid, current->uid,
 		regs->rdi, regs->rsi, regs->rdx, regs->r10, regs->r8, regs->r9);
 
 	if (sysmon_buffer_write(regs) != -1)
-		INFO_PRINT("wrote new log_entry about %s\n", sys_call);
+		INFO_PRINT("wrote new log_entry about %s\n", sys_call.sym_name);
 	else
 		INFO_PRINT("couldn't write\n");
 
@@ -63,26 +66,22 @@ void sysmon_intercept_after(struct kprobe *p, struct pt_regs *regs,
 int start_interposer(void)
 {
 	int i;
-	long nr;
+	struct sys_call_id_t this_call;
 	INFO_PRINT("setting up interposer...\n");
 	for(i=0; i <= SYSCALL_MAX; ++i) {
-		nr = sys_call_monitor[i];
-		if(sys_call_table[nr].sys_num == -1)
+		this_call = sys_call_table[i];
+		if(!(this_call.monitor))
 			continue; // invalid probe
 		// probe every sys_call 
-		probe[i].symbol_name = sys_call_table[nr].sym_name;
+		probe[i].symbol_name = this_call.sym_name;
 		probe[i].pre_handler = sysmon_intercept_before; /* called prior to function */
 
 		if (register_kprobe(&probe[i])) {
-			ERR_PRINT("register_kprobe failed on '%s'!\n", sys_call_table[nr].sym_name);
+			ERR_PRINT("register_kprobe failed on '%s'!\n", this_call.sym_name);
 			return -EFAULT;
 		}
 	}
-	for(i=0; i < sys_call_monitor_size; ++i) {
-		nr = sys_call_monitor[i];
-		// Enable the ones we want to measure
-		sys_call_table[nr].monitor = 1;
-	}
+
 	INFO_PRINT("interposer set up.\n");
 	return 0;
 }
@@ -90,13 +89,12 @@ int start_interposer(void)
 void stop_interposer(void)
 {
 	int i;
-	long nr;
+	struct sys_call_id_t this_call;
 	INFO_PRINT("tearing down interposer...\n");
 	for(i=0; i <= SYSCALL_MAX; ++i) {
-		nr = sys_call_monitor[i];
-		if(sys_call_table[nr].sys_num == -1)
-			continue; // invalid probe
-		unregister_kprobe(&probe[i]);
+		this_call = sys_call_table[i];
+		if (this_call.monitor)
+			unregister_kprobe(&probe[i]);
 	}
 	INFO_PRINT("interposer torn down.\n");
 }
