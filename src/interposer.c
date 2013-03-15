@@ -119,10 +119,10 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 		DEBUG_PRINT(
 			/* sycall pid tid args.. */
 			"sysmon intercepted '%s'\n"
-			"%lu %d %d args 0x%lu '%s' %d\n",
+			"%lu %d %d args (%lu, %lu, %lu, %lu, %lu, %lu)",
 			sys_call,
 			regs->rax, current->pid, current->tgid, 
-			(uintptr_t)regs->rdi, (char*)regs->rdi, (int)regs->rsi);
+			regs->rdi, regs->rsi, regs->rdx, regs->r10, regs->r8, regs->r9);
 
 			if (sysmon_buffer_write(regs) != -1)
 				DEBUG_PRINT("wrote new log_entry about %s\n", sys_call);

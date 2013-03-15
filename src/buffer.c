@@ -64,8 +64,105 @@ static void sysmon_seq_stop(struct seq_file *s, void *v)
 static int sysmon_seq_show(struct seq_file *s, void *v)
 {
 	struct log_entry *le = (struct log_entry *) v;
-	
-	seq_printf(s, "pid: %d, tgid: %d, sys call: %lu, args: (%lu, %lu, %lu, %lu, %lu, %lu)\n",
+
+	char *sys_call;
+	switch (log_entry->sys_call_n) {
+		case __NR_access:
+			sys_call = "access";
+			break;
+		case __NR_brk:
+			sys_call = "brk";
+			break;
+		case __NR_chdir:
+			sys_call = "chdir";
+			break;
+		case __NR_chmod:
+			sys_call = "chmod";
+			break;
+		case __NR_clone:
+			sys_call = "clone";
+			break;
+		case __NR_close:
+			sys_call = "close";
+			break;
+		case __NR_dup:
+			sys_call = "dup";
+			break;
+		case __NR_dup2:
+			sys_call = "dup2";
+			break;
+		case __NR_execve:
+			sys_call = "execve";
+			break;
+		case __NR_exit_group:
+			sys_call = "exit_group";
+			break;
+		case __NR_fcntl:
+			sys_call = "fcntl";
+			break;
+		case __NR_fork:
+			sys_call = "fork";
+			break;
+		case __NR_getdents:
+			sys_call = "getdents";
+			break;
+		case __NR_getpid:
+			sys_call = "getpid";
+			break;
+		case __NR_gettid:
+			sys_call = "gettid";
+			break;
+		case __NR_ioctl:
+			sys_call = "ioctl";
+			break;
+		case __NR_lseek:
+			sys_call = "lseek";
+			break;
+		case __NR_mkdir:
+			sys_call = "mkdir";
+			break;
+		case __NR_mmap:
+			sys_call = "mmap";
+			break;
+		case __NR_munmap:
+			sys_call = "munmap";
+			break;
+		case __NR_open:
+			sys_call = "open";
+			break;
+		case __NR_pipe:
+			sys_call = "pipe";
+			break;
+		case __NR_read:
+			sys_call = "read";
+			break;
+		case __NR_rmdir:
+			sys_call = "rmdir";
+			break;
+		case __NR_select:
+			sys_call = "select";
+			break;
+		case __NR_stat:
+			sys_call = "stat";
+			break;
+		case __NR_fstat:
+			sys_call = "fstat";
+			break;
+		case __NR_lstat:
+			sys_call = "lstat";
+			break;
+		case __NR_wait4:
+			sys_call = "wait4";
+			break;
+		case __NR_write:
+			sys_call = "write";
+			break;
+		default:
+			break;
+	}
+
+	seq_printf(s, "syscall: %s, pid: %d, tgid: %d, sys call: %lu, args: (%lu, %lu, %lu, %lu, %lu, %lu)\n",
+			   sys_call,
 			   le->pid, le->tgid,
 			   le->sys_call_n,
 			   le->arg0, le->arg1, le->arg2, le->arg3, le->arg4, le->arg5);
@@ -95,13 +192,13 @@ int sysmon_buffer_write(struct pt_regs *regs)
 
 	le->pid        = current->pid;
 	le->tgid       = current->tgid;
-	le->sys_call_n = (unsigned long) regs->rax;
-	le->arg0       = (unsigned long) regs->rdi;
-	le->arg1       = (unsigned long) regs->rsi;
-	le->arg2       = (unsigned long) regs->rdx;
-	le->arg3       = (unsigned long) regs->r10;
-	le->arg4       = (unsigned long) regs->r8;
-	le->arg5       = (unsigned long) regs->r9;
+	le->sys_call_n = regs->rax;
+	le->arg0       = regs->rdi;
+	le->arg1       = regs->rsi;
+	le->arg2       = regs->rdx;
+	le->arg3       = regs->r10;
+	le->arg4       = regs->r8;
+	le->arg5       = regs->r9;
 
 	log_entries++;
 	log_end = IN_BUF(next + 1);
