@@ -16,7 +16,7 @@ static struct kprobe probe[SYSCALL_MAX+1];
 static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 {
 	int ret = 0;
-	char *sys_call = sys_call_table[regs->rax];
+	char *sys_call = sys_call_table[regs->rax].sym_name;
 
 	if (current->uid != uid)
 		return 0;
@@ -40,8 +40,8 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 
 int start_interposer(void)
 {
-	INFO_PRINT("setting up interposer...\n");
 	int i;
+	INFO_PRINT("setting up interposer...\n");
 	for(i=0; i <= SYSCALL_MAX; ++i) {
 		if(sys_call_table[i].sys_num == -1)
 			continue; // invalid probe
@@ -60,8 +60,8 @@ int start_interposer(void)
 
 void stop_interposer(void)
 {
-	INFO_PRINT("tearing down interposer...\n");
 	int i;
+	INFO_PRINT("tearing down interposer...\n");
 	for(i=0; i <= SYSCALL_MAX; ++i) {
 		if(sys_call_table[i].sys_num == -1)
 			continue; // invalid probe
