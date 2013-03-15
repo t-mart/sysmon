@@ -16,11 +16,12 @@ static struct kprobe probe[SYSCALL_MAX+1];
 static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 {
 	int ret = 0;
-	char *sys_call = sys_call_table[regs->rax].sym_name;
+	char *sys_call;
 
 	if (current->uid != uid)
 		return 0;
 
+	sys_call = sys_call_table[regs->rax].sym_name;
 	DEBUG_PRINT(
 		/* sycall pid tid args.. */
 		"sysmon intercepted '%s'\n"
