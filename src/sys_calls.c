@@ -1,7 +1,7 @@
 #include "sys_calls.h"
 
 
-// NO IDEA WHY THIS IS NECESSARY
+// 
 // See arch/x86/kernel/asm-offsets_64.c
 //     arch/x86/kernel/sys_calls.c
 //     include/asm-x86/unistd_64.h
@@ -16,7 +16,9 @@ static char num_calls[] = {
 #include <asm/unistd.h>
 };
 
-DEFINE(__NR_syscall_max, sizeof(num_calls)-1);
+//DEFINE(__NR_syscall_max, sizeof(num_calls)-1);
+// Just hardcode it
+#define __NR_syscall_max 285
 
 #undef __syscall
 #undef _asm_x86_64_unistd_h
