@@ -5,6 +5,8 @@
 #include "uid.h"
 #include "buffer.h"
 
+#include "sys_calls.h"
+
 static struct kprobe probe;
 
 /* pt_regs defined in include/asm-x86/ptrace.h
@@ -119,7 +121,7 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 		DEBUG_PRINT(
 			/* sycall pid tid args.. */
 			"sysmon intercepted '%s'\n"
-			"%lu %d %d args (%lu, %lu, %lu, %lu, %lu, %lu)",
+			"%lu %d %d args (%lu, %lu, %lu, %lu, %lu, %lu)\n",
 			sys_call,
 			regs->rax, current->pid, current->tgid, 
 			regs->rdi, regs->rsi, regs->rdx, regs->r10, regs->r8, regs->r9);
@@ -128,6 +130,10 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 				DEBUG_PRINT("wrote new log_entry about %s\n", sys_call);
 			else
 				DEBUG_PRINT("couldn't write\n");
+
+		DEBUG_PRINT(
+			"sym_name = %s\n",
+			sys_call_table[regs->rax].sym_name);
 	}
 
 	return ret;
