@@ -1,10 +1,16 @@
-N_THREADS = 1000
-ITERS = 1000
+ITERS_PER_TEST = 1000
 
-test: build
-	strace -e trace=gettid -T ./gettid_seq.out $(ITERS) 2>&1 | grep --extended-regexp -e "[[:digit:]]\.[[:digit:]]+" --only-matching > seq.times
-	strace -e trace=gettid -T ./gettid_omp.out $(N_THREADS) $(ITERS) 2>&1 | grep --extended-regexp -e "[[:digit:]]\.[[:digit:]]+" --only-matching > omp.times
+OUTPUT_FILE = gettid_seq.times.txt
 
-build: gettid_omp.c gettid_seq.c
-	gcc -o gettid_seq.out gettid_seq.c
-	gcc -fopenmp -o gettid_omp.out gettid_omp.c
+#set this to TSC for tsc timing, otherwise, clock_gettime
+MACROS = TSC
+#MACROS = FOO
+
+test: build clean
+	sh runner.sh $(ITERS_PER_TEST) $(OUTPUT_FILE)
+
+build: gettid_seq.c
+	gcc -lrt -D $(MACROS) -o gettid_seq.out gettid_seq.c
+
+clean:
+	-rm $(OUTPUT_FILE)
