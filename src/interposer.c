@@ -6,7 +6,7 @@
 #include "buffer.h"
 #include "sys_calls.h"
 
-static struct kprobe probe[sys_call_monitor_size];
+static struct kprobe probe[SYSCALL_MAX+1];
 
 /* pt_regs defined in include/asm-x86/ptrace.h
  *
@@ -45,18 +45,22 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 	return ret;
 }
 
+void sysmon_intercept_after(struct kprobe *p, struct pt_regs *regs,
+							unsigned long flags)
+{
+	// Do something?
+}
 
 int start_interposer(void)
 {
 	int i;
 	long nr;
 	INFO_PRINT("setting up interposer...\n");
-	for(i=0; i < sys_call_monitor_size; ++i) {
+	for(i=0; i <= SYSCALL_MAX; ++i) {
 		nr = sys_call_monitor[i];
 		if(sys_call_table[nr].sys_num == -1)
 			continue; // invalid probe
-
-		sys_call_table[nr].monitor = 1;
+		// probe every sys_call 
 		probe[i].symbol_name = sys_call_table[nr].sym_name;
 		probe[i].pre_handler = sysmon_intercept_before; /* called prior to function */
 
@@ -64,6 +68,11 @@ int start_interposer(void)
 			ERR_PRINT("register_kprobe failed on '%s'!\n", sys_call_table[nr].sym_name);
 			return -EFAULT;
 		}
+	}
+	for(i=0; i < sys_call_monitor_size; ++i) {
+		nr = sys_call_monitor[i];
+		// Enable the ones we want to measure
+		sys_call_table[nr].monitor = 1;
 	}
 	INFO_PRINT("interposer set up.\n");
 	return 0;
@@ -74,7 +83,7 @@ void stop_interposer(void)
 	int i;
 	long nr;
 	INFO_PRINT("tearing down interposer...\n");
-	for(i=0; i < sys_call_monitor_size; ++i) {
+	for(i=0; i <= SYSCALL_MAX; ++i) {
 		nr = sys_call_monitor[i];
 		if(sys_call_table[nr].sys_num == -1)
 			continue; // invalid probe
