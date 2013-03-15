@@ -1,5 +1,13 @@
 #include "sys_calls.h"
 
+
+// NO IDEA WHY THIS IS NECESSARY
+// See arch/x86/kernel/asm-offsets_64.c
+//     arch/x86/kernel/sys_calls.c
+//     include/asm-x86/unistd_64.h
+#define DEFINE(sym, val) \
+        asm volatile("\n->" #sym " %0 " #val : : "i" (val))
+
 #define __NO_STUBS 1
 #undef __syscall
 #undef _asm_x86_64_unistd_h
@@ -8,13 +16,13 @@ static char num_calls[] = {
 #include <asm/unistd.h>
 };
 
-const uint32_t syscall_max = sizeof(num_calls)-1;
+DEFINE(__NR_syscall_max, sizeof(num_calls)-1);
 
 #undef __syscall
 #undef _asm_x86_64_unistd_h
 #define __syscall(nr, sym) [ nr ] = { .sym_name = #sym, .sys_num = nr }, 
 
-const struct sys_call_id_t sys_call_table[syscall_max+1] = {
-   [0 ... syscall_max] = { .sym_name = "ERROR: invalid sys call", .sys_num = -1 },
+const struct sys_call_id_t sys_call_table[__NR_syscall_max+1] = {
+   [0 ... __NR_syscall_max] = { .sym_name = "ERROR: invalid sys call", .sys_num = -1 },
 #include <asm/unistd_64.h>
 };
