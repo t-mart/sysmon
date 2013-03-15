@@ -22,12 +22,14 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 		return 0;
 
 	sys_call = sys_call_table[regs->rax].sym_name;
-	DEBUG_PRINT(
+
+	INFO_PRINT(
 		/* sycall pid tid args.. */
 		"sysmon intercepted '%s'\n"
-		"%lu %d %d args (%lu, %lu, %lu, %lu, %lu, %lu)\n",
+		"nr: %lu, pid: %d, tgid: %d, uid: %d\n",
+		"args (%lu, %lu, %lu, %lu, %lu, %lu)\n",
 		sys_call,
-		regs->rax, current->pid, current->tgid, 
+	 	regs->rax, current->pid, current->tgid, current->uid,
 		regs->rdi, regs->rsi, regs->rdx, regs->r10, regs->r8, regs->r9);
 
 	if (sysmon_buffer_write(regs) != -1)

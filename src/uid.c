@@ -2,7 +2,7 @@
 #include "proc.h"
 #include "uid.h"
 
-int uid;
+int uid = -1;
 
 static int uid_read(char *buffer, char **start, off_t offset,
 					int count, int *peof, void *dat)
