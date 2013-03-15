@@ -1,0 +1,122 @@
+execve("/bin/ls", ["ls"], [/* 24 vars */]) = 0
+brk(0)                                  = 0x616000
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ff3787c8000
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ff3787c7000
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+open("/etc/ld.so.cache", O_RDONLY)      = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=72115, ...}) = 0
+mmap(NULL, 72115, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7ff3787b5000
+close(3)                                = 0
+open("/lib64/librt.so.1", O_RDONLY)     = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0 \" \335>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=53448, ...}) = 0
+mmap(0x3edd200000, 2132936, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3edd200000
+mprotect(0x3edd207000, 2097152, PROT_NONE) = 0
+mmap(0x3edd407000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x7000) = 0x3edd407000
+close(3)                                = 0
+open("/lib64/libacl.so.1", O_RDONLY)    = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\240\30`\334>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=27920, ...}) = 0
+mmap(0x3edc600000, 2120904, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3edc600000
+mprotect(0x3edc606000, 2093056, PROT_NONE) = 0
+mmap(0x3edc805000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x5000) = 0x3edc805000
+close(3)                                = 0
+open("/lib64/libselinux.so.1", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\340E\240\334>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=95464, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ff3787b4000
+mmap(0x3edca00000, 2192800, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3edca00000
+mprotect(0x3edca15000, 2097152, PROT_NONE) = 0
+mmap(0x3edcc15000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x15000) = 0x3edcc15000
+mmap(0x3edcc17000, 1440, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x3edcc17000
+close(3)                                = 0
+open("/lib64/libc.so.6", O_RDONLY)      = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\300\332a\333>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=1726320, ...}) = 0
+mmap(0x3edb600000, 3506520, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3edb600000
+mprotect(0x3edb74f000, 2097152, PROT_NONE) = 0
+mmap(0x3edb94f000, 20480, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x14f000) = 0x3edb94f000
+mmap(0x3edb954000, 16728, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x3edb954000
+close(3)                                = 0
+open("/lib64/libpthread.so.0", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\340W \334>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=149968, ...}) = 0
+mmap(0x3edc200000, 2208624, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3edc200000
+mprotect(0x3edc216000, 2097152, PROT_NONE) = 0
+mmap(0x3edc416000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x16000) = 0x3edc416000
+mmap(0x3edc418000, 13168, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x3edc418000
+close(3)                                = 0
+open("/lib64/libattr.so.1", O_RDONLY)   = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\360\20\340\336>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=18176, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ff3787b3000
+mmap(0x3edee00000, 2111016, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3edee00000
+mprotect(0x3edee04000, 2093056, PROT_NONE) = 0
+mmap(0x3edf003000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x3000) = 0x3edf003000
+close(3)                                = 0
+open("/lib64/libdl.so.2", O_RDONLY)     = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\20\16\240\333>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=23360, ...}) = 0
+mmap(0x3edba00000, 2109696, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3edba00000
+mprotect(0x3edba02000, 2097152, PROT_NONE) = 0
+mmap(0x3edbc02000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2000) = 0x3edbc02000
+close(3)                                = 0
+open("/lib64/libsepol.so.1", O_RDONLY)  = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0@=\340\334>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=247496, ...}) = 0
+mmap(0x3edce00000, 2383168, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3edce00000
+mprotect(0x3edce3b000, 2097152, PROT_NONE) = 0
+mmap(0x3edd03b000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x3b000) = 0x3edd03b000
+mmap(0x3edd03c000, 40256, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x3edd03c000
+close(3)                                = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ff3787b2000
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ff3787b1000
+arch_prctl(ARCH_SET_FS, 0x7ff3787b1710) = 0
+mprotect(0x3edd407000, 4096, PROT_READ) = 0
+mprotect(0x3edb94f000, 16384, PROT_READ) = 0
+mprotect(0x3edc416000, 4096, PROT_READ) = 0
+mprotect(0x3edb41c000, 4096, PROT_READ) = 0
+mprotect(0x3edbc02000, 4096, PROT_READ) = 0
+munmap(0x7ff3787b5000, 72115)           = 0
+set_tid_address(0x7ff3787b17a0)         = 3607
+set_robust_list(0x7ff3787b17b0, 0x18)   = 0
+futex(0x7fff807c60fc, FUTEX_WAKE_PRIVATE, 1) = 0
+rt_sigaction(SIGRTMIN, {0x3edc2053c0, [], SA_RESTORER|SA_SIGINFO, 0x3edc20eca0}, NULL, 8) = 0
+rt_sigaction(SIGRT_1, {0x3edc2052f0, [], SA_RESTORER|SA_RESTART|SA_SIGINFO, 0x3edc20eca0}, NULL, 8) = 0
+rt_sigprocmask(SIG_UNBLOCK, [RTMIN RT_1], NULL, 8) = 0
+getrlimit(RLIMIT_STACK, {rlim_cur=8192*1024, rlim_max=RLIM_INFINITY}) = 0
+access("/etc/selinux/", F_OK)           = 0
+brk(0)                                  = 0x616000
+brk(0x637000)                           = 0x637000
+open("/etc/selinux/config", O_RDONLY)   = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=511, ...}) = 0
+mmap(NULL, 32768, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ff3787bf000
+read(3, "# This file controls the state o"..., 32768) = 511
+read(3, "", 32768)                      = 0
+close(3)                                = 0
+munmap(0x7ff3787bf000, 32768)           = 0
+open("/proc/mounts", O_RDONLY)          = 3
+fstat(3, {st_mode=S_IFREG|0444, st_size=0, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ff3787c6000
+read(3, "rootfs / rootfs rw 0 0\n130.207.2"..., 1024) = 550
+read(3, "", 1024)                       = 0
+close(3)                                = 0
+munmap(0x7ff3787c6000, 4096)            = 0
+open("/usr/lib/locale/locale-archive", O_RDONLY) = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=56421920, ...}) = 0
+mmap(NULL, 56421920, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7ff3751e2000
+close(3)                                = 0
+ioctl(1, SNDCTL_TMR_TIMEBASE or TCGETS, {B38400 opost isig icanon echo ...}) = 0
+ioctl(1, TIOCGWINSZ, {ws_row=23, ws_col=89, ws_xpixel=0, ws_ypixel=0}) = 0
+open(".", O_RDONLY|O_NONBLOCK|O_DIRECTORY) = 3
+fcntl(3, F_SETFD, FD_CLOEXEC)           = 0
+getdents(3, /* 17 entries */, 32768)    = 544
+getdents(3, /* 0 entries */, 32768)     = 0
+close(3)                                = 0
+fstat(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 2), ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ff3787c6000
+write(1, "clean-kernels  fstab  leapfrogrn"..., 54clean-kernels  fstab  leapfrogrng  slab-timer  sysmon
+) = 54
+close(1)                                = 0
+munmap(0x7ff3787c6000, 4096)            = 0
+exit_group(0)                           = ?
