@@ -6,7 +6,7 @@
 #include "buffer.h"
 #include "sys_calls.h"
 
-static struct kprobe probe[__SYSCALL_MAX+1];
+static struct kprobe probe[SYSCALL_MAX+1];
 
 /* pt_regs defined in include/asm-x86/ptrace.h
  *
@@ -30,9 +30,9 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 		regs->rdi, regs->rsi, regs->rdx, regs->r10, regs->r8, regs->r9);
 
 	if (sysmon_buffer_write(regs) != -1)
-		DEBUG_PRINT("wrote new log_entry about %s\n", sys_call);
+		INFO_PRINT("wrote new log_entry about %s\n", sys_call);
 	else
-		DEBUG_PRINT("couldn't write\n");
+		INFO_PRINT("couldn't write\n");
 
 	return ret;
 }
@@ -41,7 +41,8 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 int start_interposer(void)
 {
 	INFO_PRINT("setting up interposer...\n");
-	for(int i=0; i <= SYSCALL_MAX; ++i) {
+	int i;
+	for(i=0; i <= SYSCALL_MAX; ++i) {
 		if(sys_call_table[i].sys_num == -1)
 			continue; // invalid probe
 
@@ -60,7 +61,8 @@ int start_interposer(void)
 void stop_interposer(void)
 {
 	INFO_PRINT("tearing down interposer...\n");
-	for(int i=0; i <= SYSCALL_MAX; ++i) {
+	int i;
+	for(i=0; i <= SYSCALL_MAX; ++i) {
 		if(sys_call_table[i].sys_num == -1)
 			continue; // invalid probe
 		unregister_kprobe(&probe[i]);
