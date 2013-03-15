@@ -5,6 +5,7 @@
 #include "uid.h"
 #include "buffer.h"
 #include "sys_calls.h"
+#include "toggle.h"
 
 static struct kprobe probe[sys_call_monitor_size];
 
