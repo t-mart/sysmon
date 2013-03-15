@@ -18,12 +18,12 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 	int ret = 0;
 	long nr = -1;
 	char *sys_call;
+	int i;
 
 	if (current->uid != uid)
 		return 0;
 
 	// filter out unmonitored sys calls
-	int i;
 	for(i=0; i < sys_call_monitor_size; ++i) {
 		if(sys_call_monitor[i] == regs->rax) {
 			nr = regs->rax;
@@ -38,10 +38,10 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 	INFO_PRINT(
 		/* sycall pid tid args.. */
 		"sysmon intercepted '%s'\n"
-		"nr: %lu, pid: %d, tgid: %d, uid: %d\n",
+		"nr: %lu, pid: %d, tgid: %d, uid: %d\n"
 		"args (%lu, %lu, %lu, %lu, %lu, %lu)\n",
 		sys_call,
-	 	regs->rax, current->pid, currentnr>tgid, current->uid,
+	 	regs->rax, current->pid, current->tgid, current->uid,
 		regs->rdi, regs->rsi, regs->rdx, regs->r10, regs->r8, regs->r9);
 
 	if (sysmon_buffer_write(regs) != -1)

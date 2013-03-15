@@ -15,7 +15,6 @@ const struct sys_call_id_t sys_call_table[SYSCALL_MAX+1] = {
 };
 
 // Calls to monitor
-const int sys_call_monitor_size = 30;
 const long sys_call_monitor[] = {
 __NR_access, __NR_brk, __NR_chdir, __NR_chmod, __NR_clone, __NR_close, __NR_dup, __NR_dup2, __NR_execve, __NR_exit_group, __NR_fcntl, __NR_fork, __NR_getdents, __NR_getpid, __NR_gettid, __NR_ioctl, __NR_lseek, __NR_mkdir, __NR_mmap, __NR_munmap, __NR_open, __NR_pipe, __NR_read, __NR_rmdir, __NR_select, __NR_stat, __NR_fstat, __NR_lstat, __NR_wait4, __NR_write
-}
+};
