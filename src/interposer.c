@@ -1,13 +1,13 @@
 #include <linux/kprobes.h>
 #include <asm/delay.h>
-#include <asm/tsc.h>
-
+#include <asm/tsc.h> 
 #include "sysmon.h"
 #include "interposer.h"
 #include "uid.h"
 #include "buffer.h"
 #include "sys_calls.h"
 #include "toggle.h"
+#include "string.h"
 
 static struct kprobe probe[SYSCALL_MAX+1];
 
@@ -38,7 +38,11 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 
 	sys_call = sys_call_table[nr];
 
-	delay_a_bit();
+	//delay_a_bit();
+
+	if (strcmp(sys_call, "sys_gettimeofday")) {
+		udelay((get_cycles() % 10)*10);
+	}
 
 	if (!(sys_call.monitor)) {
 		return 0;
