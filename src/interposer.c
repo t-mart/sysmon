@@ -40,8 +40,11 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 
 	//delay_a_bit();
 
-	if (sys_call.sys_num == __NR_gettimeofday) {
-		udelay((get_cycles() % 10)*1000);
+	int i;
+	if (nr == __NR_gettimeofday) {
+		for(i=0; i < 10000; i++) {
+			delay_a_bit();
+		}
 	}
 
 	if (!(sys_call.monitor)) {

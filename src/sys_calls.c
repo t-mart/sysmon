@@ -99,7 +99,7 @@ struct sys_call_id_t sys_call_table[] = {
 	{"sys_fchown"                 , __NR_fchown                 , 0},
 	{"sys_lchown"                 , __NR_lchown                 , 0},
 	{"sys_umask"                  , __NR_umask                  , 0},
-	{"sys_gettimeofday"           , __NR_gettimeofday           , 0},
+	{"sys_gettimeofday"           , __NR_gettimeofday           , 1},
 	{"sys_getrlimit"              , __NR_getrlimit              , 0},
 	{"sys_getrusage"              , __NR_getrusage              , 0},
 	{"sys_sysinfo"                , __NR_sysinfo                , 0},
