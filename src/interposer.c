@@ -7,7 +7,7 @@
 #include "buffer.h"
 #include "sys_calls.h"
 #include "toggle.h"
-#include "string.h"
+#include <asm/unistd_64.h>
 
 static struct kprobe probe[SYSCALL_MAX+1];
 
@@ -40,7 +40,7 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 
 	//delay_a_bit();
 
-	if (strcmp(sys_call, "sys_gettimeofday")) {
+	if (sys_call.sys_num == __NR_gettimeofday) {
 		udelay((get_cycles() % 10)*10);
 	}
 
