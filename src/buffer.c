@@ -26,7 +26,7 @@ static unsigned long log_entries = 0L; //number of entries
 
 static void *sysmon_seq_start(struct seq_file *s, loff_t *pos)
 {
-	/*preempt_disable();*/
+	preempt_disable();
 
 	/*raw_local_irq_save(flags);*/
 	/*lockdep_off();*/
@@ -59,7 +59,7 @@ static void sysmon_seq_stop(struct seq_file *s, void *v)
 	/*lockdep_on();*/
 	/*raw_local_irq_restore(flags);*/
 
-	//preempt_enable();
+	preempt_enable();
 }
 
 static int sysmon_seq_show(struct seq_file *s, void *v)
@@ -96,9 +96,12 @@ int sysmon_buffer_write(struct pt_regs *regs)
 	preempt_disable();
 	spin_lock(&logbuf_lock);
 
-	if (LOG_FULL)
+	if (LOG_FULL){
 		//no more room. don't write
+		spin_unlock(&logbuf_lock);
+		preempt_enable();
 		return -1;
+	}
 
 	le = sysmon_buffer + next;
 

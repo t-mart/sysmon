@@ -9,6 +9,14 @@
 
 static struct kprobe probe[SYSCALL_MAX+1];
 
+static void delay_loop(unsigned int loops)
+{
+	char toy = 0;
+	unsigned int i;
+	for (i = 0; i < loops; i++)
+		toy = ~toy;
+}
+
 /* pt_regs defined in include/asm-x86/ptrace.h
  *
  * For information associating registers with function arguments, see:
@@ -37,8 +45,11 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 
 	sys_call = sys_call_table[nr];
 
-	if (!(sys_call.monitor))
+	//delay_loop(5);
+
+	if (!(sys_call.monitor)) {
 		return 0;
+	}
 
 	INFO_PRINT(
 		/* sycall pid tid args.. */
