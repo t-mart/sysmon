@@ -1,4 +1,6 @@
 #include <linux/kprobes.h>
+#include <asm/delay.h>
+#include <asm/tsc.h>
 
 #include "sysmon.h"
 #include "interposer.h"
@@ -9,12 +11,10 @@
 
 static struct kprobe probe[SYSCALL_MAX+1];
 
-static void delay_loop(unsigned int loops)
+static void delay_a_bit(void)
 {
-	char toy = 0;
-	unsigned int i;
-	for (i = 0; i < loops; i++)
-		toy = ~toy;
+	udelay((unsigned long) (get_cycles() % 10));
+	return;
 }
 
 /* pt_regs defined in include/asm-x86/ptrace.h
@@ -38,7 +38,7 @@ static int sysmon_intercept_before(struct kprobe *kp, struct pt_regs *regs)
 
 	sys_call = sys_call_table[nr];
 
-	//delay_loop(5);
+	delay_a_bit();
 
 	if (!(sys_call.monitor)) {
 		return 0;
